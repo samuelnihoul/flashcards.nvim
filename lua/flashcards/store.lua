@@ -22,7 +22,9 @@ end
 -- A stable identifier for a card, derived from its deck and front text so that
 -- scheduling state survives reordering and editing of the answer.
 function M.card_id(deck, front)
-  return vim.fn.sha256(deck .. "\0" .. front)
+  -- A record-separator (0x1E) keeps deck/front apart without using a NUL byte,
+  -- which Neovim would coerce into a Blob when passed to vim.fn.sha256.
+  return vim.fn.sha256(deck .. "\30" .. front)
 end
 
 -- List deck files (*.md) in the flashcards directory.
