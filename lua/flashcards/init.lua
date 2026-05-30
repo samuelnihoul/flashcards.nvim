@@ -124,6 +124,21 @@ function M.setup(opts)
   register_commands()
 end
 
+-- Icon used by pluginbar.nvim (and any compatible launcher).
+M.bar_icon = "📇"
+
+-- Public command API: yields this plugin's user-facing actions so that a
+-- launcher (e.g. pluginbar.nvim) can present them. Each item is
+-- { name, desc, run } where `run` is a zero-arg function.
+function M.commands()
+  return {
+    { name = "Review", desc = "Review all due cards", run = function() ui.review() end },
+    { name = "Add card", desc = "Add a new flashcard", run = flash_add },
+    { name = "Edit deck", desc = "Open a deck for editing", run = function() flash_edit() end },
+    { name = "Stats", desc = "Show due / new / learned counts", run = ui.stats },
+  }
+end
+
 -- Convenience re-exports.
 M.review = ui.review
 M.stats = ui.stats
